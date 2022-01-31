@@ -1,4 +1,4 @@
-# GoGodotJam2
+# GoGodotJam2 Submission
 Play it here! https://vulcanstorm.itch.io/powernetworks
 
 This is the source code for my GoGodotJam2 submission, Power Networks.
