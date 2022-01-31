@@ -1,0 +1,38 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://ui/FloatyText.gd" type="Script" id=1]
+[ext_resource path="res://gfx/energy.png" type="Texture" id=2]
+
+[node name="FloatyText" type="HBoxContainer"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -640.0
+margin_top = -360.0
+margin_right = -588.0
+margin_bottom = -328.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+alignment = 1
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="."]
+margin_right = 32.0
+margin_bottom = 32.0
+mouse_filter = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource( 2 )
+
+[node name="Label" type="Label" parent="."]
+margin_left = 36.0
+margin_top = 9.0
+margin_right = 52.0
+margin_bottom = 23.0
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "XX"

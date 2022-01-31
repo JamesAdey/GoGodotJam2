@@ -1,0 +1,33 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://ui/ResourcePanel.gd" type="Script" id=2]
+
+[node name="ResourcePanel" type="PanelContainer"]
+margin_left = 5.0
+margin_top = 5.0
+margin_right = 79.0
+margin_bottom = 51.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBox" type="HBoxContainer" parent="."]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 67.0
+margin_bottom = 39.0
+
+[node name="TextureRect" type="TextureRect" parent="HBox"]
+margin_bottom = 32.0
+
+[node name="Label" type="Label" parent="HBox"]
+margin_left = 4.0
+margin_top = 9.0
+margin_right = 54.0
+margin_bottom = 23.0
+rect_min_size = Vector2( 50, 0 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "500"

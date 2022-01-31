@@ -1,0 +1,16 @@
+[general]
+
+singleton=false
+load_once=true
+symbol_prefix="godot_"
+reloadable=true
+
+[entry]
+
+HTML5.wasm32="res://bin/libenergysource.wasm"
+X11.64="res://bin/libenergysource.so"
+
+[dependencies]
+
+HTML5.wasm32=[  ]
+X11.64=[  ]

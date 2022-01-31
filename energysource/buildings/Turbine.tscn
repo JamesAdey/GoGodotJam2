@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://gfx/buildings/turbine_back.png" type="Texture" id=1]
+[ext_resource path="res://gfx/buildings/turbine_front.png" type="Texture" id=2]
+[ext_resource path="res://bin/turbine.gdns" type="Script" id=3]
+
+[node name="Turbine" type="Sprite"]
+texture = ExtResource( 1 )
+centered = false
+script = ExtResource( 3 )
+
+[node name="front" type="Sprite" parent="."]
+texture = ExtResource( 2 )
+centered = false

@@ -1,0 +1,138 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+_global_script_classes=[ {
+"base": "Node",
+"class": "BotInput",
+"language": "NativeScript",
+"path": "res://bin/botinput.gdns"
+}, {
+"base": "Sprite",
+"class": "CoalMine",
+"language": "NativeScript",
+"path": "res://bin/coalmine.gdns"
+}, {
+"base": "",
+"class": "CoalMineData",
+"language": "NativeScript",
+"path": "res://bin/coalminedata.gdns"
+}, {
+"base": "Node",
+"class": "Derived",
+"language": "NativeScript",
+"path": "res://bin/derived.gdns"
+}, {
+"base": "HBoxContainer",
+"class": "FloatyText",
+"language": "GDScript",
+"path": "res://ui/FloatyText.gd"
+}, {
+"base": "CanvasLayer",
+"class": "GameController",
+"language": "GDScript",
+"path": "res://GameController.gd"
+}, {
+"base": "Node",
+"class": "GameData",
+"language": "NativeScript",
+"path": "res://bin/gamedata.gdns"
+}, {
+"base": "Node",
+"class": "HumanInput",
+"language": "NativeScript",
+"path": "res://bin/humaninput.gdns"
+}, {
+"base": "AnimationPlayer",
+"class": "NextTurnAnim",
+"language": "GDScript",
+"path": "res://ui/NextTurnAnim.gd"
+}, {
+"base": "Node2D",
+"class": "Player",
+"language": "NativeScript",
+"path": "res://bin/player.gdns"
+}, {
+"base": "Sprite",
+"class": "Pylon",
+"language": "NativeScript",
+"path": "res://bin/pylon.gdns"
+}, {
+"base": "Reference",
+"class": "PylonData",
+"language": "NativeScript",
+"path": "res://bin/pylondata.gdns"
+}, {
+"base": "PanelContainer",
+"class": "ResourcePanel",
+"language": "GDScript",
+"path": "res://ui/ResourcePanel.gd"
+}, {
+"base": "PanelContainer",
+"class": "ScoreLabel",
+"language": "GDScript",
+"path": "res://ui/ScoreLabel.gd"
+}, {
+"base": "Sprite",
+"class": "Turbine",
+"language": "NativeScript",
+"path": "res://bin/turbine.gdns"
+}, {
+"base": "Reference",
+"class": "TurbineData",
+"language": "NativeScript",
+"path": "res://bin/turbinedata.gdns"
+}, {
+"base": "PanelContainer",
+"class": "VictoryPanel",
+"language": "GDScript",
+"path": "res://ui/VictoryPanel.gd"
+} ]
+_global_script_class_icons={
+"BotInput": "",
+"CoalMine": "",
+"CoalMineData": "",
+"Derived": "",
+"FloatyText": "",
+"GameController": "",
+"GameData": "",
+"HumanInput": "",
+"NextTurnAnim": "",
+"Player": "",
+"Pylon": "",
+"PylonData": "",
+"ResourcePanel": "",
+"ScoreLabel": "",
+"Turbine": "",
+"TurbineData": "",
+"VictoryPanel": ""
+}
+
+[application]
+
+config/name="EnergySource"
+run/main_scene="res://levels/MainMenu.tscn"
+config/icon="res://icon.png"
+
+[autoload]
+
+Globals="*res://Globals.tscn"
+
+[display]
+
+window/size/width=1280
+window/size/height=720
+
+[physics]
+
+common/enable_pause_aware_picking=true
+
+[rendering]
+
+environment/default_environment="res://default_env.tres"

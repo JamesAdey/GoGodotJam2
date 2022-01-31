@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://bin/pylon.gdns" type="Script" id=1]
+[ext_resource path="res://gfx/buildings/pylon_front.png" type="Texture" id=2]
+[ext_resource path="res://gfx/buildings/pylon_back.png" type="Texture" id=3]
+
+[node name="Pylon" type="Sprite"]
+texture = ExtResource( 3 )
+centered = false
+script = ExtResource( 1 )
+
+[node name="front" type="Sprite" parent="."]
+texture = ExtResource( 2 )
+centered = false

@@ -1,0 +1,739 @@
+[gd_scene load_steps=23 format=2]
+
+[ext_resource path="res://gfx/tileworld.tres" type="TileSet" id=1]
+[ext_resource path="res://icon.png" type="Texture" id=2]
+[ext_resource path="res://bin/gamedata.gdns" type="Script" id=3]
+[ext_resource path="res://GhostSprite.gd" type="Script" id=4]
+[ext_resource path="res://GameController.gd" type="Script" id=5]
+[ext_resource path="res://ui/PlayerUI.gd" type="Script" id=6]
+[ext_resource path="res://bin/humaninput.gdns" type="Script" id=7]
+[ext_resource path="res://ui/ResourcePanel.tscn" type="PackedScene" id=8]
+[ext_resource path="res://gfx/tiles/coal.png" type="Texture" id=9]
+[ext_resource path="res://gfx/money.png" type="Texture" id=10]
+[ext_resource path="res://ui/VictoryPanel.gd" type="Script" id=11]
+[ext_resource path="res://bin/botinput.gdns" type="Script" id=12]
+[ext_resource path="res://gfx/energy.png" type="Texture" id=13]
+[ext_resource path="res://gfx/buildings/turbine_ghost.png" type="Texture" id=14]
+[ext_resource path="res://gfx/buildings/coalmine_ghost.png" type="Texture" id=15]
+[ext_resource path="res://ui/BuildInfoPanel.gd" type="Script" id=16]
+[ext_resource path="res://gfx/nextturn.png" type="Texture" id=17]
+[ext_resource path="res://gfx/buildings/pylon_ghost.png" type="Texture" id=18]
+[ext_resource path="res://ui/ScoreLabel.tscn" type="PackedScene" id=19]
+[ext_resource path="res://ui/NextTurnAnim.gd" type="Script" id=20]
+
+[sub_resource type="Animation" id=1]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ false ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "new_turn_anim"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 1.5, 2 ),
+"transitions": PoolRealArray( 0.5, 1, 2, 1 ),
+"update": 0,
+"values": [ Vector2( 1280, 180 ), Vector2( 320, 180 ), Vector2( 320, 180 ), Vector2( -640, 180 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+
+[node name="GameController" type="CanvasLayer"]
+script = ExtResource( 5 )
+
+[node name="HumanInput" type="Node" parent="."]
+script = ExtResource( 7 )
+
+[node name="BotInput" type="Node" parent="."]
+script = ExtResource( 12 )
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = ExtResource( 1 )
+cell_size = Vector2( 32, 32 )
+format = 1
+tile_data = PoolIntArray( 0, 0, 0, 1, 0, 0, 2, 0, 0, 3, 0, 0, 4, 0, 0, 5, 0, 0, 6, 0, 0, 7, 0, 0, 8, 0, 0, 9, 0, 0, 10, 0, 0, 11, 0, 0, 12, 0, 0, 13, 0, 0, 14, 0, 0, 15, 0, 0, 16, 0, 0, 17, 0, 0, 18, 0, 0, 19, 0, 0, 20, 0, 0, 21, 0, 0, 22, 0, 0, 23, 0, 0, 24, 0, 0, 25, 0, 0, 26, 0, 0, 27, 0, 0, 28, 0, 0, 29, 0, 0, 30, 0, 0, 31, 0, 0, 32, 0, 0, 33, 0, 0, 34, 0, 0, 35, 0, 0, 36, 0, 0, 37, 0, 0, 38, 0, 0, 39, 0, 0, 65536, 0, 0, 65537, 0, 0, 65538, 0, 0, 65539, 0, 0, 65540, 0, 0, 65541, 0, 0, 65542, 0, 0, 65543, 0, 0, 65544, 0, 0, 65545, 0, 0, 65546, 0, 0, 65547, 0, 0, 65548, 2, 0, 65549, 2, 0, 65550, 2, 0, 65551, 2, 0, 65552, 0, 0, 65553, 0, 0, 65554, 0, 0, 65555, 0, 0, 65556, 0, 0, 65557, 0, 0, 65558, 0, 0, 65559, 0, 0, 65560, 0, 0, 65561, 0, 0, 65562, 0, 0, 65563, 0, 0, 65564, 0, 0, 65565, 0, 0, 65566, 0, 0, 65567, 0, 0, 65568, 0, 0, 65569, 0, 0, 65570, 0, 0, 65571, 0, 0, 65572, 0, 0, 65573, 0, 0, 65574, 0, 0, 65575, 0, 0, 131072, 0, 0, 131073, 0, 0, 131074, 0, 0, 131075, 0, 0, 131076, 0, 0, 131077, 0, 0, 131078, 0, 0, 131079, 0, 0, 131080, 0, 0, 131081, 0, 0, 131082, 0, 0, 131083, 0, 0, 131084, 2, 0, 131085, 2, 0, 131086, 2, 0, 131087, 2, 0, 131088, 0, 0, 131089, 0, 0, 131090, 0, 0, 131091, 0, 0, 131092, 0, 0, 131093, 0, 0, 131094, 0, 0, 131095, 0, 0, 131096, 0, 0, 131097, 0, 0, 131098, 0, 0, 131099, 0, 0, 131100, 0, 0, 131101, 0, 0, 131102, 0, 0, 131103, 0, 0, 131104, 0, 0, 131105, 0, 0, 131106, 0, 0, 131107, 0, 0, 131108, 0, 0, 131109, 0, 0, 131110, 0, 0, 131111, 0, 0, 196608, 0, 0, 196609, 0, 0, 196610, 0, 0, 196611, 0, 0, 196612, 0, 0, 196613, 0, 0, 196614, 0, 0, 196615, 0, 0, 196616, 0, 0, 196617, 0, 0, 196618, 0, 0, 196619, 0, 0, 196620, 2, 0, 196621, 2, 0, 196622, 2, 0, 196623, 2, 0, 196624, 0, 0, 196625, 0, 0, 196626, 0, 0, 196627, 0, 0, 196628, 0, 0, 196629, 0, 0, 196630, 0, 0, 196631, 0, 0, 196632, 0, 0, 196633, 0, 0, 196634, 0, 0, 196635, 0, 0, 196636, 0, 0, 196637, 0, 0, 196638, 0, 0, 196639, 0, 0, 196640, 0, 0, 196641, 0, 0, 196642, 0, 0, 196643, 0, 0, 196644, 0, 0, 196645, 0, 0, 196646, 0, 0, 196647, 0, 0, 262144, 0, 0, 262145, 0, 0, 262146, 0, 0, 262147, 0, 0, 262148, 0, 0, 262149, 0, 0, 262150, 0, 0, 262151, 0, 0, 262152, 0, 0, 262153, 0, 0, 262154, 0, 0, 262155, 0, 0, 262156, 0, 0, 262157, 0, 0, 262158, 0, 0, 262159, 0, 0, 262160, 0, 0, 262161, 0, 0, 262162, 0, 0, 262163, 0, 0, 262164, 0, 0, 262165, 0, 0, 262166, 0, 0, 262167, 0, 0, 262168, 0, 0, 262169, 0, 0, 262170, 0, 0, 262171, 2, 0, 262172, 2, 0, 262173, 2, 0, 262174, 2, 0, 262175, 0, 0, 262176, 0, 0, 262177, 0, 0, 262178, 0, 0, 262179, 0, 0, 262180, 0, 0, 262181, 0, 0, 262182, 0, 0, 262183, 0, 0, 327680, 0, 0, 327681, 0, 0, 327682, 0, 0, 327683, 0, 0, 327684, 0, 0, 327685, 0, 0, 327686, 0, 0, 327687, 0, 0, 327688, 0, 0, 327689, 0, 0, 327690, 0, 0, 327691, 0, 0, 327692, 0, 0, 327693, 0, 0, 327694, 0, 0, 327695, 0, 0, 327696, 0, 0, 327697, 0, 0, 327698, 0, 0, 327699, 0, 0, 327700, 0, 0, 327701, 0, 0, 327702, 0, 0, 327703, 0, 0, 327704, 0, 0, 327705, 0, 0, 327706, 0, 0, 327707, 2, 0, 327708, 2, 0, 327709, 2, 0, 327710, 2, 0, 327711, 0, 0, 327712, 0, 0, 327713, 0, 0, 327714, 0, 0, 327715, 0, 0, 327716, 0, 0, 327717, 0, 0, 327718, 0, 0, 327719, 0, 0, 393216, 0, 0, 393217, 0, 0, 393218, 0, 0, 393219, 0, 0, 393220, 0, 0, 393221, 0, 0, 393222, 0, 0, 393223, 0, 0, 393224, 0, 0, 393225, 0, 0, 393226, 0, 0, 393227, 0, 0, 393228, 0, 0, 393229, 0, 0, 393230, 0, 0, 393231, 0, 0, 393232, 0, 0, 393233, 0, 0, 393234, 0, 0, 393235, 0, 0, 393236, 0, 0, 393237, 0, 0, 393238, 0, 0, 393239, 0, 0, 393240, 0, 0, 393241, 0, 0, 393242, 0, 0, 393243, 2, 0, 393244, 2, 0, 393245, 2, 0, 393246, 2, 0, 393247, 0, 0, 393248, 0, 0, 393249, 0, 0, 393250, 0, 0, 393251, 0, 0, 393252, 0, 0, 393253, 0, 0, 393254, 0, 0, 393255, 0, 0, 458752, 0, 0, 458753, 0, 0, 458754, 0, 0, 458755, 0, 0, 458756, 0, 0, 458757, 0, 0, 458758, 0, 0, 458759, 0, 0, 458760, 0, 0, 458761, 0, 0, 458762, 0, 0, 458763, 0, 0, 458764, 0, 0, 458765, 0, 0, 458766, 0, 0, 458767, 0, 0, 458768, 0, 0, 458769, 0, 0, 458770, 0, 0, 458771, 0, 0, 458772, 0, 0, 458773, 0, 0, 458774, 0, 0, 458775, 0, 0, 458776, 0, 0, 458777, 0, 0, 458778, 0, 0, 458779, 0, 0, 458780, 0, 0, 458781, 0, 0, 458782, 0, 0, 458783, 0, 0, 458784, 0, 0, 458785, 0, 0, 458786, 0, 0, 458787, 0, 0, 458788, 0, 0, 458789, 0, 0, 458790, 0, 0, 458791, 0, 0, 524288, 0, 0, 524289, 0, 0, 524290, 0, 0, 524291, 0, 0, 524292, 0, 0, 524293, 0, 0, 524294, 0, 0, 524295, 0, 0, 524296, 0, 0, 524297, 0, 0, 524298, 0, 0, 524299, 0, 0, 524300, 0, 0, 524301, 0, 0, 524302, 0, 0, 524303, 0, 0, 524304, 0, 0, 524305, 0, 0, 524306, 0, 0, 524307, 0, 0, 524308, 0, 0, 524309, 0, 0, 524310, 0, 0, 524311, 0, 0, 524312, 0, 0, 524313, 0, 0, 524314, 0, 0, 524315, 0, 0, 524316, 0, 0, 524317, 0, 0, 524318, 0, 0, 524319, 0, 0, 524320, 0, 0, 524321, 0, 0, 524322, 0, 0, 524323, 0, 0, 524324, 0, 0, 524325, 0, 0, 524326, 0, 0, 524327, 0, 0, 589824, 0, 0, 589825, 0, 0, 589826, 0, 0, 589827, 0, 0, 589828, 0, 0, 589829, 0, 0, 589830, 0, 0, 589831, 0, 0, 589832, 0, 0, 589833, 0, 0, 589834, 0, 0, 589835, 0, 0, 589836, 0, 0, 589837, 0, 0, 589838, 0, 0, 589839, 0, 0, 589840, 0, 0, 589841, 0, 0, 589842, 0, 0, 589843, 0, 0, 589844, 0, 0, 589845, 0, 0, 589846, 0, 0, 589847, 0, 0, 589848, 0, 0, 589849, 0, 0, 589850, 0, 0, 589851, 0, 0, 589852, 0, 0, 589853, 0, 0, 589854, 0, 0, 589855, 0, 0, 589856, 0, 0, 589857, 0, 0, 589858, 0, 0, 589859, 0, 0, 589860, 0, 0, 589861, 0, 0, 589862, 0, 0, 589863, 0, 0, 655360, 0, 0, 655361, 0, 0, 655362, 0, 0, 655363, 0, 0, 655364, 0, 0, 655365, 0, 0, 655366, 0, 0, 655367, 0, 0, 655368, 0, 0, 655369, 0, 0, 655370, 0, 0, 655371, 0, 0, 655372, 0, 0, 655373, 0, 0, 655374, 0, 0, 655375, 0, 0, 655376, 0, 0, 655377, 0, 0, 655378, 0, 0, 655379, 0, 0, 655380, 0, 0, 655381, 0, 0, 655382, 0, 0, 655383, 0, 0, 655384, 0, 0, 655385, 0, 0, 655386, 0, 0, 655387, 0, 0, 655388, 0, 0, 655389, 0, 0, 655390, 0, 0, 655391, 0, 0, 655392, 0, 0, 655393, 0, 0, 655394, 0, 0, 655395, 0, 0, 655396, 0, 0, 655397, 0, 0, 655398, 0, 0, 655399, 0, 0, 720896, 0, 0, 720897, 0, 0, 720898, 0, 0, 720899, 0, 0, 720900, 0, 0, 720901, 0, 0, 720902, 0, 0, 720903, 0, 0, 720904, 0, 0, 720905, 0, 0, 720906, 0, 0, 720907, 0, 0, 720908, 0, 0, 720909, 0, 0, 720910, 0, 0, 720911, 0, 0, 720912, 0, 0, 720913, 0, 0, 720914, 0, 0, 720915, 0, 0, 720916, 0, 0, 720917, 0, 0, 720918, 0, 0, 720919, 0, 0, 720920, 0, 0, 720921, 0, 0, 720922, 0, 0, 720923, 0, 0, 720924, 0, 0, 720925, 0, 0, 720926, 0, 0, 720927, 0, 0, 720928, 0, 0, 720929, 0, 0, 720930, 0, 0, 720931, 0, 0, 720932, 0, 0, 720933, 0, 0, 720934, 0, 0, 720935, 0, 0, 786432, 0, 0, 786433, 0, 0, 786434, 0, 0, 786435, 0, 0, 786436, 0, 0, 786437, 0, 0, 786438, 0, 0, 786439, 0, 0, 786440, 0, 0, 786441, 0, 0, 786442, 0, 0, 786443, 0, 0, 786444, 0, 0, 786445, 0, 0, 786446, 0, 0, 786447, 0, 0, 786448, 0, 0, 786449, 0, 0, 786450, 0, 0, 786451, 0, 0, 786452, 0, 0, 786453, 0, 0, 786454, 0, 0, 786455, 0, 0, 786456, 0, 0, 786457, 0, 0, 786458, 0, 0, 786459, 0, 0, 786460, 0, 0, 786461, 0, 0, 786462, 0, 0, 786463, 0, 0, 786464, 0, 0, 786465, 0, 0, 786466, 0, 0, 786467, 0, 0, 786468, 0, 0, 786469, 0, 0, 786470, 0, 0, 786471, 0, 0, 851968, 0, 0, 851969, 0, 0, 851970, 0, 0, 851971, 0, 0, 851972, 0, 0, 851973, 0, 0, 851974, 0, 0, 851975, 0, 0, 851976, 0, 0, 851977, 0, 0, 851978, 0, 0, 851979, 0, 0, 851980, 0, 0, 851981, 0, 0, 851982, 0, 0, 851983, 0, 0, 851984, 0, 0, 851985, 0, 0, 851986, 0, 0, 851987, 0, 0, 851988, 0, 0, 851989, 0, 0, 851990, 0, 0, 851991, 0, 0, 851992, 0, 0, 851993, 0, 0, 851994, 0, 0, 851995, 0, 0, 851996, 0, 0, 851997, 0, 0, 851998, 0, 0, 851999, 0, 0, 852000, 0, 0, 852001, 0, 0, 852002, 0, 0, 852003, 0, 0, 852004, 0, 0, 852005, 0, 0, 852006, 0, 0, 852007, 0, 0, 917504, 0, 0, 917505, 0, 0, 917506, 2, 0, 917507, 2, 0, 917508, 2, 0, 917509, 0, 0, 917510, 0, 0, 917511, 0, 0, 917512, 0, 0, 917513, 0, 0, 917514, 0, 0, 917515, 0, 0, 917516, 0, 0, 917517, 0, 0, 917518, 0, 0, 917519, 0, 0, 917520, 0, 0, 917521, 0, 0, 917522, 2, 0, 917523, 2, 0, 917524, 2, 0, 917525, 0, 0, 917526, 0, 0, 917527, 0, 0, 917528, 0, 0, 917529, 0, 0, 917530, 0, 0, 917531, 0, 0, 917532, 0, 0, 917533, 0, 0, 917534, 0, 0, 917535, 0, 0, 917536, 0, 0, 917537, 0, 0, 917538, 0, 0, 917539, 0, 0, 917540, 0, 0, 917541, 0, 0, 917542, 0, 0, 917543, 0, 0, 983040, 0, 0, 983041, 0, 0, 983042, 2, 0, 983043, 2, 0, 983044, 2, 0, 983045, 0, 0, 983046, 0, 0, 983047, 0, 0, 983048, 0, 0, 983049, 0, 0, 983050, 0, 0, 983051, 0, 0, 983052, 0, 0, 983053, 0, 0, 983054, 0, 0, 983055, 0, 0, 983056, 0, 0, 983057, 0, 0, 983058, 2, 0, 983059, 2, 0, 983060, 2, 0, 983061, 0, 0, 983062, 0, 0, 983063, 0, 0, 983064, 0, 0, 983065, 0, 0, 983066, 0, 0, 983067, 0, 0, 983068, 0, 0, 983069, 0, 0, 983070, 0, 0, 983071, 0, 0, 983072, 0, 0, 983073, 2, 0, 983074, 2, 0, 983075, 2, 0, 983076, 0, 0, 983077, 0, 0, 983078, 0, 0, 983079, 0, 0, 1048576, 0, 0, 1048577, 0, 0, 1048578, 2, 0, 1048579, 2, 0, 1048580, 2, 0, 1048581, 0, 0, 1048582, 0, 0, 1048583, 0, 0, 1048584, 0, 0, 1048585, 0, 0, 1048586, 0, 0, 1048587, 0, 0, 1048588, 0, 0, 1048589, 0, 0, 1048590, 0, 0, 1048591, 0, 0, 1048592, 0, 0, 1048593, 0, 0, 1048594, 2, 0, 1048595, 2, 0, 1048596, 2, 0, 1048597, 0, 0, 1048598, 0, 0, 1048599, 0, 0, 1048600, 0, 0, 1048601, 0, 0, 1048602, 0, 0, 1048603, 0, 0, 1048604, 0, 0, 1048605, 0, 0, 1048606, 0, 0, 1048607, 0, 0, 1048608, 0, 0, 1048609, 2, 0, 1048610, 2, 0, 1048611, 2, 0, 1048612, 0, 0, 1048613, 0, 0, 1048614, 0, 0, 1048615, 0, 0, 1114112, 0, 0, 1114113, 0, 0, 1114114, 2, 0, 1114115, 2, 0, 1114116, 2, 0, 1114117, 0, 0, 1114118, 0, 0, 1114119, 0, 0, 1114120, 0, 0, 1114121, 0, 0, 1114122, 0, 0, 1114123, 0, 0, 1114124, 0, 0, 1114125, 0, 0, 1114126, 0, 0, 1114127, 0, 0, 1114128, 0, 0, 1114129, 0, 0, 1114130, 0, 0, 1114131, 0, 0, 1114132, 0, 0, 1114133, 0, 0, 1114134, 0, 0, 1114135, 0, 0, 1114136, 0, 0, 1114137, 0, 0, 1114138, 0, 0, 1114139, 0, 0, 1114140, 0, 0, 1114141, 0, 0, 1114142, 0, 0, 1114143, 0, 0, 1114144, 0, 0, 1114145, 2, 0, 1114146, 2, 0, 1114147, 2, 0, 1114148, 0, 0, 1114149, 0, 0, 1114150, 0, 0, 1114151, 0, 0, 1179648, 0, 0, 1179649, 0, 0, 1179650, 0, 0, 1179651, 0, 0, 1179652, 0, 0, 1179653, 0, 0, 1179654, 0, 0, 1179655, 0, 0, 1179656, 0, 0, 1179657, 0, 0, 1179658, 0, 0, 1179659, 0, 0, 1179660, 0, 0, 1179661, 0, 0, 1179662, 0, 0, 1179663, 0, 0, 1179664, 0, 0, 1179665, 0, 0, 1179666, 0, 0, 1179667, 0, 0, 1179668, 0, 0, 1179669, 0, 0, 1179670, 0, 0, 1179671, 0, 0, 1179672, 0, 0, 1179673, 0, 0, 1179674, 0, 0, 1179675, 0, 0, 1179676, 0, 0, 1179677, 0, 0, 1179678, 0, 0, 1179679, 0, 0, 1179680, 0, 0, 1179681, 0, 0, 1179682, 0, 0, 1179683, 0, 0, 1179684, 0, 0, 1179685, 0, 0, 1179686, 0, 0, 1179687, 0, 0, 1245184, 0, 0, 1245185, 0, 0, 1245186, 0, 0, 1245187, 0, 0, 1245188, 0, 0, 1245189, 0, 0, 1245190, 0, 0, 1245191, 0, 0, 1245192, 0, 0, 1245193, 0, 0, 1245194, 0, 0, 1245195, 0, 0, 1245196, 0, 0, 1245197, 0, 0, 1245198, 0, 0, 1245199, 0, 0, 1245200, 0, 0, 1245201, 0, 0, 1245202, 0, 0, 1245203, 0, 0, 1245204, 0, 0, 1245205, 0, 0, 1245206, 0, 0, 1245207, 0, 0, 1245208, 0, 0, 1245209, 0, 0, 1245210, 0, 0, 1245211, 0, 0, 1245212, 0, 0, 1245213, 0, 0, 1245214, 0, 0, 1245215, 0, 0, 1245216, 0, 0, 1245217, 0, 0, 1245218, 0, 0, 1245219, 0, 0, 1245220, 0, 0, 1245221, 0, 0, 1245222, 0, 0, 1245223, 0, 0, 1310720, 0, 0, 1310721, 0, 0, 1310722, 0, 0, 1310723, 0, 0, 1310724, 0, 0, 1310725, 0, 0, 1310726, 0, 0, 1310727, 0, 0, 1310728, 0, 0, 1310729, 0, 0, 1310730, 0, 0, 1310731, 0, 0, 1310732, 0, 0, 1310733, 0, 0, 1310734, 0, 0, 1310735, 0, 0, 1310736, 0, 0, 1310737, 0, 0, 1310738, 0, 0, 1310739, 0, 0, 1310740, 0, 0, 1310741, 0, 0, 1310742, 0, 0, 1310743, 0, 0, 1310744, 0, 0, 1310745, 0, 0, 1310746, 0, 0, 1310747, 0, 0, 1310748, 0, 0, 1310749, 0, 0, 1310750, 0, 0, 1310751, 0, 0, 1310752, 0, 0, 1310753, 0, 0, 1310754, 0, 0, 1310755, 0, 0, 1310756, 0, 0, 1310757, 0, 0, 1310758, 0, 0, 1310759, 0, 0, 1376256, 0, 0, 1376257, 0, 0, 1376258, 0, 0, 1376259, 0, 0, 1376260, 0, 0, 1376261, 0, 0, 1376262, 0, 0, 1376263, 0, 0, 1376264, 0, 0, 1376265, 0, 0, 1376266, 0, 0, 1376267, 0, 0, 1376268, 0, 0, 1376269, 0, 0, 1376270, 0, 0, 1376271, 0, 0, 1376272, 0, 0, 1376273, 0, 0, 1376274, 0, 0, 1376275, 0, 0, 1376276, 0, 0, 1376277, 0, 0, 1376278, 0, 0, 1376279, 0, 0, 1376280, 0, 0, 1376281, 0, 0, 1376282, 0, 0, 1376283, 0, 0, 1376284, 0, 0, 1376285, 0, 0, 1376286, 0, 0, 1376287, 0, 0, 1376288, 0, 0, 1376289, 0, 0, 1376290, 0, 0, 1376291, 0, 0, 1376292, 0, 0, 1376293, 0, 0, 1376294, 0, 0, 1376295, 0, 0 )
+
+[node name="GhostSprite" type="Sprite" parent="."]
+modulate = Color( 1, 1, 1, 0.752941 )
+position = Vector2( 610, 298 )
+texture = ExtResource( 2 )
+centered = false
+script = ExtResource( 4 )
+
+[node name="PlayerUI" type="CanvasLayer" parent="."]
+layer = 2
+follow_viewport_enable = true
+script = ExtResource( 6 )
+
+[node name="BuildMenu" type="MarginContainer" parent="PlayerUI"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -250.0
+mouse_filter = 2
+custom_constants/margin_right = 20
+custom_constants/margin_top = 20
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 20
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="InfoBox" type="Label" parent="PlayerUI/BuildMenu"]
+margin_left = 20.0
+margin_top = 130.0
+margin_right = 220.0
+margin_bottom = 230.0
+rect_min_size = Vector2( 200, 100 )
+size_flags_horizontal = 0
+size_flags_vertical = 8
+text = "Hello There!
+Try clicking a button on the build menu over there -------->"
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="PlayerUI/BuildMenu/InfoBox"]
+modulate = Color( 1, 1, 1, 0.501961 )
+show_behind_parent = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -5.0
+margin_top = -5.0
+margin_right = 5.0
+margin_bottom = 5.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PlayerUI/BuildMenu"]
+margin_left = 428.0
+margin_top = 20.0
+margin_right = 852.0
+margin_bottom = 230.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+custom_constants/separation = 10
+alignment = 1
+
+[node name="CoalMine" type="VBoxContainer" parent="PlayerUI/BuildMenu/HBoxContainer"]
+margin_top = 36.0
+margin_right = 138.0
+margin_bottom = 210.0
+size_flags_vertical = 8
+
+[node name="BuildInfoPanel" type="PanelContainer" parent="PlayerUI/BuildMenu/HBoxContainer/CoalMine"]
+margin_right = 138.0
+margin_bottom = 100.0
+script = ExtResource( 16 )
+buttonPath = NodePath("../BuildCoalMineButton")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PlayerUI/BuildMenu/HBoxContainer/CoalMine/BuildInfoPanel"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 131.0
+margin_bottom = 93.0
+
+[node name="CostText" type="HBoxContainer" parent="PlayerUI/BuildMenu/HBoxContainer/CoalMine/BuildInfoPanel/VBoxContainer"]
+margin_right = 124.0
+margin_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="PlayerUI/BuildMenu/HBoxContainer/CoalMine/BuildInfoPanel/VBoxContainer/CostText"]
+margin_top = 9.0
+margin_right = 44.0
+margin_bottom = 23.0
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "Cost: 5"
+
+[node name="TextureRect" type="TextureRect" parent="PlayerUI/BuildMenu/HBoxContainer/CoalMine/BuildInfoPanel/VBoxContainer/CostText"]
+margin_left = 48.0
+margin_right = 80.0
+margin_bottom = 32.0
+mouse_filter = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource( 10 )
+
+[node name="ProducesText" type="HBoxContainer" parent="PlayerUI/BuildMenu/HBoxContainer/CoalMine/BuildInfoPanel/VBoxContainer"]
+margin_top = 36.0
+margin_right = 124.0
+margin_bottom = 68.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="PlayerUI/BuildMenu/HBoxContainer/CoalMine/BuildInfoPanel/VBoxContainer/ProducesText"]
+modulate = Color( 0.501961, 1, 0.501961, 1 )
+margin_top = 9.0
+margin_right = 88.0
+margin_bottom = 23.0
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "Produces: 1-4"
+
+[node name="TextureRect" type="TextureRect" parent="PlayerUI/BuildMenu/HBoxContainer/CoalMine/BuildInfoPanel/VBoxContainer/ProducesText"]
+margin_left = 92.0
+margin_right = 124.0
+margin_bottom = 32.0
+mouse_filter = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource( 9 )
+
+[node name="TurnText" type="Label" parent="PlayerUI/BuildMenu/HBoxContainer/CoalMine/BuildInfoPanel/VBoxContainer"]
+margin_top = 72.0
+margin_right = 124.0
+margin_bottom = 86.0
+text = "(Produces @ Start)"
+align = 1
+
+[node name="BuildCoalMineButton" type="Button" parent="PlayerUI/BuildMenu/HBoxContainer/CoalMine"]
+margin_left = 31.0
+margin_top = 104.0
+margin_right = 107.0
+margin_bottom = 174.0
+hint_tooltip = "Build a coal mine."
+size_flags_horizontal = 4
+size_flags_vertical = 8
+icon = ExtResource( 15 )
+
+[node name="Turbine" type="VBoxContainer" parent="PlayerUI/BuildMenu/HBoxContainer"]
+margin_left = 148.0
+margin_right = 281.0
+margin_bottom = 210.0
+size_flags_vertical = 8
+
+[node name="BuildInfoPanel2" type="PanelContainer" parent="PlayerUI/BuildMenu/HBoxContainer/Turbine"]
+margin_right = 133.0
+margin_bottom = 136.0
+script = ExtResource( 16 )
+buttonPath = NodePath("../BuildTurbineButton")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PlayerUI/BuildMenu/HBoxContainer/Turbine/BuildInfoPanel2"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 126.0
+margin_bottom = 129.0
+
+[node name="CostText" type="HBoxContainer" parent="PlayerUI/BuildMenu/HBoxContainer/Turbine/BuildInfoPanel2/VBoxContainer"]
+margin_right = 119.0
+margin_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="PlayerUI/BuildMenu/HBoxContainer/Turbine/BuildInfoPanel2/VBoxContainer/CostText"]
+margin_top = 9.0
+margin_right = 44.0
+margin_bottom = 23.0
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "Cost: 4"
+
+[node name="TextureRect" type="TextureRect" parent="PlayerUI/BuildMenu/HBoxContainer/Turbine/BuildInfoPanel2/VBoxContainer/CostText"]
+margin_left = 48.0
+margin_right = 80.0
+margin_bottom = 32.0
+mouse_filter = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource( 9 )
+
+[node name="ConsumesText" type="HBoxContainer" parent="PlayerUI/BuildMenu/HBoxContainer/Turbine/BuildInfoPanel2/VBoxContainer"]
+margin_top = 36.0
+margin_right = 119.0
+margin_bottom = 68.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="PlayerUI/BuildMenu/HBoxContainer/Turbine/BuildInfoPanel2/VBoxContainer/ConsumesText"]
+modulate = Color( 1, 0.501961, 0.501961, 1 )
+margin_top = 9.0
+margin_right = 83.0
+margin_bottom = 23.0
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "Consumes: 3"
+
+[node name="TextureRect" type="TextureRect" parent="PlayerUI/BuildMenu/HBoxContainer/Turbine/BuildInfoPanel2/VBoxContainer/ConsumesText"]
+margin_left = 87.0
+margin_right = 119.0
+margin_bottom = 32.0
+mouse_filter = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource( 9 )
+
+[node name="ProducesText2" type="HBoxContainer" parent="PlayerUI/BuildMenu/HBoxContainer/Turbine/BuildInfoPanel2/VBoxContainer"]
+margin_top = 72.0
+margin_right = 119.0
+margin_bottom = 104.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="PlayerUI/BuildMenu/HBoxContainer/Turbine/BuildInfoPanel2/VBoxContainer/ProducesText2"]
+modulate = Color( 0.501961, 1, 0.501961, 1 )
+margin_top = 9.0
+margin_right = 75.0
+margin_bottom = 23.0
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "Produces: 1"
+
+[node name="TextureRect" type="TextureRect" parent="PlayerUI/BuildMenu/HBoxContainer/Turbine/BuildInfoPanel2/VBoxContainer/ProducesText2"]
+margin_left = 79.0
+margin_right = 111.0
+margin_bottom = 32.0
+mouse_filter = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource( 13 )
+
+[node name="TurnText" type="Label" parent="PlayerUI/BuildMenu/HBoxContainer/Turbine/BuildInfoPanel2/VBoxContainer"]
+margin_top = 108.0
+margin_right = 119.0
+margin_bottom = 122.0
+text = "(Produces @ End)"
+align = 1
+
+[node name="BuildTurbineButton" type="Button" parent="PlayerUI/BuildMenu/HBoxContainer/Turbine"]
+margin_left = 28.0
+margin_top = 140.0
+margin_right = 104.0
+margin_bottom = 210.0
+hint_tooltip = "Build a Turbine."
+size_flags_horizontal = 4
+size_flags_vertical = 8
+icon = ExtResource( 14 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Pylon" type="VBoxContainer" parent="PlayerUI/BuildMenu/HBoxContainer"]
+margin_left = 291.0
+margin_right = 424.0
+margin_bottom = 210.0
+size_flags_vertical = 8
+
+[node name="BuildInfoPanel2" type="PanelContainer" parent="PlayerUI/BuildMenu/HBoxContainer/Pylon"]
+margin_right = 133.0
+margin_bottom = 136.0
+script = ExtResource( 16 )
+buttonPath = NodePath("../BuildPylonButton")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PlayerUI/BuildMenu/HBoxContainer/Pylon/BuildInfoPanel2"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 126.0
+margin_bottom = 129.0
+
+[node name="CostText" type="HBoxContainer" parent="PlayerUI/BuildMenu/HBoxContainer/Pylon/BuildInfoPanel2/VBoxContainer"]
+margin_right = 119.0
+margin_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="PlayerUI/BuildMenu/HBoxContainer/Pylon/BuildInfoPanel2/VBoxContainer/CostText"]
+margin_top = 9.0
+margin_right = 44.0
+margin_bottom = 23.0
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "Cost: 3"
+
+[node name="TextureRect" type="TextureRect" parent="PlayerUI/BuildMenu/HBoxContainer/Pylon/BuildInfoPanel2/VBoxContainer/CostText"]
+margin_left = 48.0
+margin_right = 80.0
+margin_bottom = 32.0
+mouse_filter = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource( 13 )
+
+[node name="ConsumesText" type="HBoxContainer" parent="PlayerUI/BuildMenu/HBoxContainer/Pylon/BuildInfoPanel2/VBoxContainer"]
+margin_top = 36.0
+margin_right = 119.0
+margin_bottom = 68.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="PlayerUI/BuildMenu/HBoxContainer/Pylon/BuildInfoPanel2/VBoxContainer/ConsumesText"]
+modulate = Color( 1, 0.501961, 0.501961, 1 )
+margin_top = 9.0
+margin_right = 83.0
+margin_bottom = 23.0
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "Consumes: 2"
+
+[node name="TextureRect" type="TextureRect" parent="PlayerUI/BuildMenu/HBoxContainer/Pylon/BuildInfoPanel2/VBoxContainer/ConsumesText"]
+margin_left = 87.0
+margin_right = 119.0
+margin_bottom = 32.0
+mouse_filter = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource( 13 )
+
+[node name="ProducesText2" type="HBoxContainer" parent="PlayerUI/BuildMenu/HBoxContainer/Pylon/BuildInfoPanel2/VBoxContainer"]
+margin_top = 72.0
+margin_right = 119.0
+margin_bottom = 104.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="PlayerUI/BuildMenu/HBoxContainer/Pylon/BuildInfoPanel2/VBoxContainer/ProducesText2"]
+modulate = Color( 0.501961, 1, 0.501961, 1 )
+margin_top = 9.0
+margin_right = 75.0
+margin_bottom = 23.0
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "Produces: 6"
+
+[node name="TextureRect" type="TextureRect" parent="PlayerUI/BuildMenu/HBoxContainer/Pylon/BuildInfoPanel2/VBoxContainer/ProducesText2"]
+margin_left = 79.0
+margin_right = 111.0
+margin_bottom = 32.0
+mouse_filter = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource( 10 )
+
+[node name="TurnText" type="Label" parent="PlayerUI/BuildMenu/HBoxContainer/Pylon/BuildInfoPanel2/VBoxContainer"]
+margin_top = 108.0
+margin_right = 119.0
+margin_bottom = 122.0
+text = "(Produces @ Start)"
+align = 1
+
+[node name="BuildPylonButton" type="Button" parent="PlayerUI/BuildMenu/HBoxContainer/Pylon"]
+margin_left = 28.0
+margin_top = 140.0
+margin_right = 104.0
+margin_bottom = 210.0
+hint_tooltip = "Build a Pylon"
+size_flags_horizontal = 4
+size_flags_vertical = 8
+icon = ExtResource( 18 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ResourceContainer" type="MarginContainer" parent="PlayerUI"]
+margin_right = 313.0
+margin_bottom = 51.0
+mouse_filter = 2
+custom_constants/margin_top = 5
+custom_constants/margin_left = 5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PlayerUI/ResourceContainer"]
+margin_left = 5.0
+margin_top = 5.0
+margin_right = 313.0
+margin_bottom = 51.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+alignment = 1
+
+[node name="CoalPanel" parent="PlayerUI/ResourceContainer/HBoxContainer" instance=ExtResource( 8 )]
+margin_left = 0.0
+margin_top = 0.0
+margin_right = 100.0
+margin_bottom = 46.0
+hint_tooltip = "Coal"
+img = ExtResource( 9 )
+
+[node name="EnergyPanel" parent="PlayerUI/ResourceContainer/HBoxContainer" instance=ExtResource( 8 )]
+margin_left = 104.0
+margin_top = 0.0
+margin_right = 204.0
+margin_bottom = 46.0
+hint_tooltip = "Energy"
+img = ExtResource( 13 )
+
+[node name="MoneyPanel" parent="PlayerUI/ResourceContainer/HBoxContainer" instance=ExtResource( 8 )]
+margin_left = 208.0
+margin_top = 0.0
+margin_right = 308.0
+margin_bottom = 46.0
+hint_tooltip = "Money"
+img = ExtResource( 10 )
+
+[node name="EndTurnContainer" type="MarginContainer" parent="PlayerUI"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -154.0
+margin_top = -80.0
+mouse_filter = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+custom_constants/margin_right = 5
+custom_constants/margin_top = 5
+custom_constants/margin_left = 5
+custom_constants/margin_bottom = 5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="EndTurnButton" type="Button" parent="PlayerUI/EndTurnContainer"]
+margin_left = 5.0
+margin_top = 5.0
+margin_right = 149.0
+margin_bottom = 75.0
+size_flags_horizontal = 8
+size_flags_vertical = 8
+text = "END TURN"
+icon = ExtResource( 17 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ObjectiveContainer" type="MarginContainer" parent="PlayerUI"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -171.0
+margin_bottom = 219.0
+grow_horizontal = 0
+mouse_filter = 2
+size_flags_horizontal = 8
+size_flags_vertical = 12
+custom_constants/margin_right = 5
+custom_constants/margin_top = 50
+custom_constants/margin_left = 5
+custom_constants/margin_bottom = 5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PlayerUI/ObjectiveContainer"]
+margin_left = 5.0
+margin_top = 50.0
+margin_right = 166.0
+margin_bottom = 214.0
+
+[node name="PanelContainer" type="PanelContainer" parent="PlayerUI/ObjectiveContainer/VBoxContainer"]
+self_modulate = Color( 1, 1, 1, 0.501961 )
+margin_right = 161.0
+margin_bottom = 64.0
+size_flags_horizontal = 8
+size_flags_vertical = 9
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PlayerUI/ObjectiveContainer/VBoxContainer/PanelContainer"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 154.0
+margin_bottom = 57.0
+
+[node name="Label" type="Label" parent="PlayerUI/ObjectiveContainer/VBoxContainer/PanelContainer/VBoxContainer"]
+margin_right = 147.0
+margin_bottom = 14.0
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "Objective:"
+
+[node name="CostText" type="HBoxContainer" parent="PlayerUI/ObjectiveContainer/VBoxContainer/PanelContainer/VBoxContainer"]
+margin_top = 18.0
+margin_right = 147.0
+margin_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="PlayerUI/ObjectiveContainer/VBoxContainer/PanelContainer/VBoxContainer/CostText"]
+margin_top = 9.0
+margin_right = 111.0
+margin_bottom = 23.0
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "Get a total of 100"
+
+[node name="TextureRect" type="TextureRect" parent="PlayerUI/ObjectiveContainer/VBoxContainer/PanelContainer/VBoxContainer/CostText"]
+margin_left = 115.0
+margin_right = 147.0
+margin_bottom = 32.0
+mouse_filter = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource( 10 )
+
+[node name="P1Score" parent="PlayerUI/ObjectiveContainer/VBoxContainer" instance=ExtResource( 19 )]
+colour = Color( 0, 0.501961, 1, 1 )
+
+[node name="P2Score" parent="PlayerUI/ObjectiveContainer/VBoxContainer" instance=ExtResource( 19 )]
+margin_top = 118.0
+margin_bottom = 164.0
+colour = Color( 1, 0, 0, 1 )
+
+[node name="VictoryPanel" type="PanelContainer" parent="PlayerUI"]
+visible = false
+self_modulate = Color( 1, 1, 1, 0.752941 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 12
+size_flags_vertical = 12
+script = ExtResource( 11 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CenterContainer" type="CenterContainer" parent="PlayerUI/VictoryPanel"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 1273.0
+margin_bottom = 713.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PlayerUI/VictoryPanel/CenterContainer"]
+margin_left = 582.0
+margin_top = 331.0
+margin_right = 683.0
+margin_bottom = 375.0
+custom_constants/separation = 10
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="PlayerUI/VictoryPanel/CenterContainer/VBoxContainer"]
+margin_right = 101.0
+margin_bottom = 14.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+text = "NOBODY WINS!"
+align = 1
+valign = 1
+uppercase = true
+
+[node name="MainMenuButton" type="Button" parent="PlayerUI/VictoryPanel/CenterContainer/VBoxContainer"]
+margin_top = 24.0
+margin_right = 101.0
+margin_bottom = 44.0
+text = "Main Menu"
+
+[node name="TurnSwipe" type="PanelContainer" parent="PlayerUI"]
+visible = false
+self_modulate = Color( 1, 1, 1, 0.752941 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -640.0
+margin_top = -360.0
+margin_right = 0.000732422
+grow_horizontal = 2
+grow_vertical = 2
+rect_min_size = Vector2( 640, 360 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="NextTurnAnim" type="AnimationPlayer" parent="PlayerUI/TurnSwipe"]
+anims/RESET = SubResource( 1 )
+anims/new_turn_anim = SubResource( 2 )
+script = ExtResource( 20 )
+
+[node name="Label" type="Label" parent="PlayerUI/TurnSwipe"]
+margin_left = 7.0
+margin_top = 173.0
+margin_right = 633.001
+margin_bottom = 187.0
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "Player 1's Turn"
+align = 1
+valign = 1
+
+[node name="GameData" type="Node" parent="."]
+script = ExtResource( 3 )
+
+[node name="FloatyTextOverlay" type="MarginContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -1.0
+margin_bottom = -1.0
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="pressed" from="PlayerUI/BuildMenu/HBoxContainer/CoalMine/BuildCoalMineButton" to="PlayerUI" method="_on_BuildCoalMineButton_pressed"]
+[connection signal="pressed" from="PlayerUI/BuildMenu/HBoxContainer/Turbine/BuildTurbineButton" to="PlayerUI" method="_on_BuildTurbineButton_pressed"]
+[connection signal="pressed" from="PlayerUI/BuildMenu/HBoxContainer/Pylon/BuildPylonButton" to="PlayerUI" method="_on_BuildPylonButton_pressed"]
+[connection signal="pressed" from="PlayerUI/EndTurnContainer/EndTurnButton" to="PlayerUI" method="_on_EndTurnButton_pressed"]
+[connection signal="pressed" from="PlayerUI/VictoryPanel/CenterContainer/VBoxContainer/MainMenuButton" to="PlayerUI/VictoryPanel" method="_on_MainMenuButton_pressed"]
